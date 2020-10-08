@@ -50,7 +50,7 @@ function getUrl(str, text) {
 
     if (start) {
         str = str.slice(start)
-
+        // git test commit    
 
         let end = str.indexOf('&')
         if (0 <= end) {
@@ -68,4 +68,5 @@ function getUrl(str, text) {
     } else {
         return null
     }
+    // git test commit
 }
