@@ -1,0 +1,72 @@
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900  1) //console.log('!!!')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900  2) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900  3) const http = require('http')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900  4) const moment = require('moment')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900  5) const fs = require('fs')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900  6) const server = http.createServer(function(req,res) {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900  7)     try {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900  8)         res.writeHead(200, {'Content-Type':'text\plain'})
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900  9)         if(req.method == "POST") {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 10)             //Console.LOG('!!!')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 11)             let url = req.url
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 12)             // url = url.replace(/\//gi, '')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 13)             // url = url.replace(/&/gi, ' ')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 14) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 15) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 16)             // let text = str[0].replace('index=', '')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 17)             let uid = getUrl(url, 'uid')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 18)             let index = getUrl(url, 'index')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 19)             //let standardTime = getUrl(url, 'standardTime')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 20)             let now = moment()
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 21)             let filename
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 22)             let buf = 0 // 재생시간
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 23)             
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 24)             req.on('data', function(chunk) {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 25)                 buf = buf + chunk.length
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 26)                 filename = now + '_' + uid + '_' + index + '.wav'
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 27)                 fs.appendFileSync(filename, chunk)
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 28)             })
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 29)             
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 30)             req.on('end', function() {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 31) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 32) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 33)                 res.end('100099')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 34)                 console.log('finish ~ !!')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 35)             })
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 36)         } else {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 37)             res.end('Undefined request')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 38)         }
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 39)     } catch (e) {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 40)         res.end(e)
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 41)     }
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 42) })
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 43) server.listen(33201)
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 44) console.log('Server running on port 33201')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 45) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 46) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 47) function getUrl(str, text) {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 48)     let start = str.indexOf(text)
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 49) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 50) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 51)     if (start) {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 52)         str = str.slice(start)
+9305b416 (metalgeni 2020-10-08 16:39:07 +0900 53)         // git test commit    
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 54) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 55)         let end = str.indexOf('&')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 56)         if (0 <= end) {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 57)             str = str.slice(0, end)
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 58)         }
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 59) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 60) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 61)         let mid = str.indexOf('=')
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 62) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 63) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 64)         str = str.slice(mid +1)
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 65) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 66) 
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 67)         return str
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 68)     } else {
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 69)         return null
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 70)     }
+9305b416 (metalgeni 2020-10-08 16:39:07 +0900 71)     // git test commit
+abe5b916 (metalgeni 2020-10-08 16:02:34 +0900 72) }
